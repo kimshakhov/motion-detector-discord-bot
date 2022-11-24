@@ -30,7 +30,7 @@ async def send_private_pic(author, path):
 
 
 def run_discord_bot():
-    TOKEN = 'MTA0Mjc5NDA5MjA3OTM0OTc4MA.GPNiWE.PF9PwLxBOX7e3vXe51jKplRyifHoLPXzsigHDs'
+    TOKEN = ''
     client = discord.Client(intents=discord.Intents.default())
 
     @client.event
