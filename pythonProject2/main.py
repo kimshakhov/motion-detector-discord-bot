@@ -104,12 +104,32 @@ class Process(multiprocessing.Process):
 
     def run(self):
         time.sleep(1)
-        if self.id == 0:
-            url = 'rtsp://admin:ODDHUW@192.168.8.35:554/Streaming/Channels/101'
-            network_cam = cv2.VideoCapture(0)
-            do_camera(network_cam)
         if self.id == 1:
             alarm_bot.run_discord_bot()
+
+
+def do_network_cam():
+    url = ""
+    network_cam = cv2.VideoCapture(url)
+    do_camera(network_cam)
+
+
+def do_local_cam():
+    cam = cv2.VideoCapture(0)
+    do_camera(cam)
+
+
+def start_cam():
+    print("if you want to use video stream from local device type 0 \n"
+          "if you want to use video stream from network url type 1 ")
+    i = input()
+    while i != '0' and i != '1':
+        print("input not valid, please try again ")
+        i = input()
+    if i == '0':
+        do_local_cam()
+    elif i == '1':
+        do_network_cam()
 
 
 def file_cleanup(f_path):
@@ -126,15 +146,12 @@ def pics_cleanup():
 if __name__ == '__main__':
     print("welcome to Kim's motion detection system")
 
-    p0 = Process(0)
-    p0.start()
-    p1 = Process(1)
-    p1.start()
-    p0.join()
-    p1.join()
+    bot_process = Process(1)
+    bot_process.start()
+    start_cam()
+    bot_process.join()
 
     print("do you want to clean the pictures? Y/N")
-
     if input() == "Y":
         pics_cleanup()
 
@@ -142,3 +159,4 @@ if __name__ == '__main__':
     file_cleanup("alarm_pic_paths.txt")
 
     print("finished both processes")
+
