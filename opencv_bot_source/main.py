@@ -38,7 +38,7 @@ if __name__ == '__main__':
     bot_process.join()
 
     print("do you want to clean the pictures? Y/N")
-    if input() == "Y":
+    if input().lower() == "y":
         pics_cleanup()
 
     file_cleanup("alarms.txt")

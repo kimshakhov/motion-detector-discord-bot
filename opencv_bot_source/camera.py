@@ -101,14 +101,26 @@ def do_network_cam():
     do_camera(network_cam)
 
 
+def do_error_net_cam(url):
+    try:
+        print("trying")
+        video = cv2.VideoCapture(url, apiPreference=cv2.CAP_FFMPEG)
+        if video is not None and video.isOpened():
+            do_camera(video)
+        else:
+            print("couldn't' open the video stream, make sure the entered URL is correct")
+    except cv2.error as error:
+        print("[Error]: {}".format(error))
+
+
 def do_local_cam():
     cam = cv2.VideoCapture(0)
     do_camera(cam)
 
 
 def start_cam():
-    print("if you want to use video stream from local device type 0 \n"
-          "if you want to use video stream from network url type 1 ")
+    print("if you want to use video stream from local device type '0' \n"
+          "if you want to use video stream from network url type '1' ")
     i = input()
     while i != '0' and i != '1':
         print("input not valid, please try again ")
@@ -116,4 +128,5 @@ def start_cam():
     if i == '0':
         do_local_cam()
     elif i == '1':
-        do_network_cam()
+        url = input("enter the url ")
+        do_error_net_cam(url)
